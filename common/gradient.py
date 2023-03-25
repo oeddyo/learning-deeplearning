@@ -41,12 +41,27 @@ def numerical_gradient(f, x):
         tmp_val = x[idx]
         x[idx] = tmp_val + h
         fxh1 = f(x) # f(x+h)
+
+        print("fxh1 = ", fxh1)
         
         x[idx] = tmp_val - h 
         fxh2 = f(x) # f(x-h)
+
+        print("fxh2 = ", fxh2)
         grad[idx] = (fxh1 - fxh2) / (2*h)
         
         x[idx] = tmp_val # 値を元に戻す
         it.iternext()   
         
+    return grad
+
+
+def numerical_gradient_faster(f, x):
+    h = 1e-4
+
+    x_add_h = x + h
+    x_sub_h = x - h
+
+    vf = np.vectorize(f)
+    grad = (vf(x_add_h) - vf(x_sub_h)) / (2*h)
     return grad
